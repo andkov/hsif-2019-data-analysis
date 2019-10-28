@@ -1,5 +1,5 @@
-# hsif-2019-data-analysis
-Managing Data Analysis in RStudio using Project-Oriented workflow
+# Managing Data Analysis in RStudio using Project-Oriented workflow
+Workshop at the 2019 cohort retreat for the Health System Impact Fellowship 
 
 ## Abstract
 
