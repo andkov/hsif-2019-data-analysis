@@ -1,5 +1,5 @@
 # Managing Data Analysis in RStudio using Project-Oriented workflow
-Workshop at the 2019 cohort retreat for the Health System Impact Fellowship 
+Workshop at the 2019 cohort retreat for the Health System Impact Fellowship, Toronto, November 26-29, 2019. 
 
 ## Abstract
 
