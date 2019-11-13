@@ -16,7 +16,7 @@ To participate in the workshop you will need to install the following software o
 3. **Several R packages** , most commonly used in a data science workflow. Once you install R and RStudio, please run the following script in your console.  Create a new 'personal library' if it prompts you.
 
 ```r
-install.packages(c("tidyverse","titanic","kableExtra","knitr", "rmarkdown","DT","scales", "RColorBrewer"))
+install.packages(c("tidyverse","titanic","kableExtra","knitr", "rmarkdown","DT","scales", "RColorBrewer", "explore"))
 ```
 
 ## About the presenter
