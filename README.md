@@ -5,7 +5,7 @@ Workshop at the 2019 cohort retreat for the Health System Impact Fellowship, Tor
 
 The workshop will review best practices of reproducible research including folder architecture, data preparation, graph making, statistical modeling, and script documentation. The workshop is targeted at researchers who are expected to conduct their own analysis of data and prepare reports that deliver the findings to both technical and executive audiences within health systems. Using logistic regression as an example, the participants will learn to communicate statistical findings more effectively, and will evaluate the advantages of using computational notebooks in RStudio to disseminate the results.
 
-## Software requirements
+## Software requirements / Installation instructions
 
 To participate in the workshop you will need to install the following software on your computer:
 
