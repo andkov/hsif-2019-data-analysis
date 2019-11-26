@@ -1,0 +1,228 @@
+---
+title: "Logistic Regression on Titanic Data"
+output:
+  html_document:
+    toc: yes
+    toc_float: yes
+---
+This documents narrates the analysis of Titanic survival data.  
+
+Packages that will be used in this analysis: 
+```{r message=FALSE, warning = FALSE}
+library(magrittr)
+library(dplyr)
+library(ggplot2)
+library(titanic)
+```
+
+
+# Wrangling
+
+## Load  
+Import the data provided by the titanic package
+```{r }
+ds0 <- titanic::titanic_train
+head(ds0)
+dplyr::glimpse(ds0)
+```
+
+## Inspect  
+To better understand the data set, let us inspect quantitative properties of each variable
+```{r }
+explore::describe_all(ds0)
+
+```
+
+## Tweek 
+To prepare our data for modeling, let perform routine data transformations:  
+ * 1. Convert column names to lowercase  
+ * 2. Select and sort columns
+ * 3. Rename columns  
+ * 4. Covert strings to factors  
+ * 5. Filter out missing values  
+```{r tweek-data}
+# create a new copy that will store tweeks
+ds1 <- ds0
+# 1. convert columns names to lowercase
+names(ds1) <- tolower(names(ds1))
+# ds1 %>% glimpse()
+# 2. Keep only specific variables and sort columns 
+ds1 <- ds1 %>% 
+  dplyr::select(survived, pclass, sex, age, sibsp, parch, fare, embarked)
+# ds1 %>% glimpse()
+# 3. Rename variables
+ds1 <- ds1 %>% 
+  dplyr::rename(
+    n_siblings_spouses  = sibsp
+    ,n_parents_children = parch
+    ,price_ticket       = fare
+    ,port_embarked      = embarked
+  )
+# 4. Convert a character variable to a factor
+ds1 <- ds1 %>% 
+  dplyr::mutate(
+    survived = factor(survived, levels = c(0,1), labels = c("Died", "Survived"))
+    ,sex     = factor(sex, levels = c("male","female"), labels = c("Men","Women"))
+    ,pclass  = factor(pclass, levels = c(1,2,3), labels = c("First","Second", "Third"))
+  )
+# 5. Remove observations where a) age is NA b) port_embarked is missing ("")
+ds1 <- ds1 %>% 
+  dplyr::filter(!is.na(age)) %>% 
+  dplyr::filter(port_embarked != "")
+# create an alias data set for modeling
+ds_modeling <- ds1
+ds_modeling %>% glimpse()
+```
+
+
+# Tabulating
+
+Summary tables to help us see observed differenced broken down by levels of predictors
+
+```{r basic-tables}
+#  How does survival brake down by levels of predictors?
+ds_modeling %>% 
+  dplyr::group_by(survived, sex) %>% 
+  dplyr::summarize(
+    n_people = n()
+    ,mean_age = mean(age, na.rm = T)
+  )
+```
+
+# Modeling
+
+## 0 - Sex
+
+### Summary
+```{r}
+model_0 <- stats::glm(
+  formula = survived ~ sex
+  ,family = "binomial"
+  ,data = ds_modeling
+)
+summary(model_0)
+# create levels of predictors for which to generate predicted values
+ds_predicted_0 <- ds_modeling %>% 
+  dplyr::select(sex) %>% 
+  dplyr::distinct()
+# add model prediction
+ds_predicted_0 <- ds_predicted_0 %>% 
+  dplyr::mutate(
+    log_odds = predict(object = model_0, newdata = .)
+    ,probability = plogis(log_odds)
+  )
+# ds_predicted_0
+```
+
+### Graph - g0
+
+```{r}
+ds_predicted_0 %>% 
+  ggplot(aes(x = sex, y = probability))+
+  geom_bar(stat = "identity")
+```
+
+## 1 - Sex + Age
+
+### Summary (g1)
+```{r}
+model_1 <- stats::glm(
+  formula = survived ~ sex + age
+  ,family = "binomial"
+  ,data = ds_modeling
+)
+summary(model_1)
+# create levels of predictors for which to generate predicted values
+ds_predicted_1 <- ds_modeling %>% 
+  dplyr::select(sex, age) %>% 
+  dplyr::distinct()
+# add model prediction
+ds_predicted_1 <- ds_predicted_1 %>% 
+  dplyr::mutate(
+    log_odds     = predict(object = model_1, newdata = .)
+    ,probability = plogis(log_odds)
+  )
+# ds_predicted_1
+```
+
+### Graph (g1)
+
+```{r}
+g1 <- ds_predicted_1 %>% 
+  ggplot(aes(x = age, y = probability))+
+  geom_point(aes(color = sex))
+g1
+```
+
+
+## 2 - Sex + Age + Class
+
+
+### Summary (m2)
+```{r}
+model_2 <- stats::glm(
+  formula = survived ~ sex + age + pclass
+  ,family = "binomial"
+  ,data = ds_modeling
+)
+summary(model_2)
+# create levels of predictors for which to generate predicted values
+ds_predicted_2 <- ds_modeling %>% 
+  dplyr::select(sex, age, pclass) %>% 
+  dplyr::distinct()
+# add model prediction
+ds_predicted_2 <- ds_predicted_2 %>% 
+  dplyr::mutate(
+    log_odds     = predict(object = model_2, newdata = .)
+    ,probability = plogis(log_odds)
+  )
+# ds_predicted_2
+```
+
+### Graph (g2)
+```{r}
+g2 <- ds_predicted_2 %>% 
+  ggplot(aes(x = age, y = probability))+
+  geom_point(aes(color = sex))+
+  facet_wrap("pclass")
+g2
+```
+
+
+## 3 - Sex + Age + Class + Port
+
+### Summary (m3)
+```{r}
+model_3 <- stats::glm(
+  formula = survived ~ sex + age + pclass + port_embarked
+  ,family = "binomial"
+  ,data = ds_modeling
+)
+summary(model_3)
+# create levels of predictors for which to generate predicted values
+ds_predicted_3 <- ds_modeling %>% 
+  dplyr::select(sex, age, pclass, port_embarked) %>% 
+  dplyr::distinct()
+# add model prediction
+ds_predicted_3 <- ds_predicted_3 %>% 
+  dplyr::mutate(
+    log_odds     = predict(object = model_3, newdata = .)
+    ,probability = plogis(log_odds)
+  )
+# ds_predicted_3
+
+```
+
+### Graph (g3)
+```{r}
+g3 <- ds_predicted_3 %>% 
+  ggplot(aes(x = age, y = probability))+
+  geom_point(aes(color = sex, shape = port_embarked))+
+  facet_grid(. ~ pclass)
+  # facet_grid(port_embarked ~ pclass)
+g3
+```
+
+
+
+
