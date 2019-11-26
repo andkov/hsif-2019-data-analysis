@@ -1,6 +1,11 @@
 # Managing Data Analysis in RStudio using Project-Oriented workflow
 Workshop at the 2019 cohort retreat for the Health System Impact Fellowship, Toronto, November 26-29, 2019. 
 
+## Materials
+- [notebook-only](https://raw.githack.com/andkov/hsif-2019-data-analysis/master/analysis/titanic-notebook-only/titanic-notebook.html)
+- [separate-layers](https://raw.githack.com/andkov/hsif-2019-data-analysis/master/analysis/titanic-separate-layers/titanic.html)
+- [slides](libs/materials/hsif-2019-toronto-workshop-slides.pds)
+
 ## Abstract
 
 The workshop will review best practices of reproducible research including folder architecture, data preparation, graph making, statistical modeling, and script documentation. The workshop is targeted at researchers who are expected to conduct their own analysis of data and prepare reports that deliver the findings to both technical and executive audiences within health systems. Using logistic regression as an example, the participants will learn to communicate statistical findings more effectively, and will evaluate the advantages of using computational notebooks in RStudio to disseminate the results.
