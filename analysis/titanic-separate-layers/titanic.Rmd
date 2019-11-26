@@ -50,7 +50,7 @@ This documents narrates the analysis of Titanic survival data.
 
 Packages that will be used in this analysis: 
 <!-- Load 'sourced' R files.  Suppress the output when loading packages. --> 
-```{r load-packages, echo=echoChunks, message=FALSE, warning=FALSE}
+```{r load-packages, echo=TRUE, message=FALSE, warning=FALSE}
 ```
 
 
