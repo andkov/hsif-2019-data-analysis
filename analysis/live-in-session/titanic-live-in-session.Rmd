@@ -1,0 +1,75 @@
+---
+title: "Logistic Regression on Titanic Data"
+output:
+  html_document:
+    df_print: paged
+---
+
+For this analyis we will use the following packages
+```{r message=FALSE, warning=FALSE}
+library(titanic)
+library(magrittr) # for piping %>% Control + SHift + M 
+library(dplyr)
+library(ggplot2)
+library(explore)
+```
+
+# Wrangling
+
+## Load
+```{r}
+ds0 <- titanic::titanic_train
+ds0 %>% glimpse()
+```
+
+## Inspect 
+Let us view quantitative properties of each variable to help us decide which are good candidates for statistical modeling 
+```{r}
+ds0 %>% explore::describe_all()
+```
+
+## Tweak 
+To prepare our data for modling, let us perform routine data transformation
+```{r}
+ds1 <- ds0 
+#1. convert column names to lowercase
+names(ds1) <- ds0 %>% names() %>% tolower()
+ds1 %>% glimpse()
+
+#2. Keep only specific variables in spefic order
+ds1 <- ds1 %>% 
+  dplyr::select(survived, sex, age, fare, pclass,  embarked)
+ds1 %>% glimpse()
+
+#3. Rename variables
+ds1 <- ds1 %>% 
+  dplyr::rename(
+    cost_ticket    = fare
+    ,port_embarked = embarked
+  )
+ds1 %>% glimpse()
+
+#4. Convert to a factor
+ds1 <- ds1 %>% 
+  dplyr::mutate(
+    sex = factor(sex, levels = c("female","male"), labels = c("Women","Men") )
+    ,survived = factor(survived, levels = c(0, 1), labels = c("Died","Survived"))
+  )
+#5. Remove observation based on a rule 
+ds1 <- ds1 %>% 
+  dplyr::filter( !is.na(age) ) %>% 
+  dplyr::filter(! port_embarked == "")
+
+
+```
+
+
+
+
+# Tabulating
+
+
+
+# Modeling 
+
+
