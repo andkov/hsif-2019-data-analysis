@@ -2,9 +2,9 @@
 Workshop at the 2019 cohort retreat for the Health System Impact Fellowship, Toronto, November 26-29, 2019. 
 
 ## Materials
-- [notebook-only](https://raw.githack.com/andkov/hsif-2019-data-analysis/master/analysis/titanic-notebook-only/titanic-notebook.html)
-- [separate-layers](https://raw.githack.com/andkov/hsif-2019-data-analysis/master/analysis/titanic-separate-layers/titanic.html)
-- [slides](libs/materials/hsif-2019-toronto-workshop-slides.pds)
+- [notebook-only](https://raw.githack.com/andkov/hsif-2019-data-analysis/master/analysis/titanic-notebook-only/titanic-notebook.html) - analytic report as a notebook (combines code and annotation in the same `.Rmd` file)
+- [separate-layers](https://raw.githack.com/andkov/hsif-2019-data-analysis/master/analysis/titanic-separate-layers/titanic.html) - analytic report separating the analytic layer (`.R`) from the annotation layer (`.Rmd`)
+- [presentation slides](https://raw.githack.com/andkov/hsif-2019-data-analysis/master/libs/materials/HSIF-Toronto-2019-11-26-data-analysis-workshop.pdf) 
 
 ## Abstract
 
